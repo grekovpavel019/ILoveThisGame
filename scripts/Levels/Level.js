@@ -1,4 +1,4 @@
-import KeyboardProcessor from "../../KeyboardProcessor.js";
+import KeyboardProcessor from "../KeyboardProcessor.js";
 import { Container } from "../../pixi/pixi.mjs";
 
 export default class Level extends Container {
