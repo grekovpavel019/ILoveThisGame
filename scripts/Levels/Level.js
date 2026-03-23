@@ -14,26 +14,7 @@ export default class Level extends Container {
     constructor() {
         super();
 
-        this.keyboardProcessor = new KeyboardProcessor(this);
-        this.keyboardProcessor.getButton("Space").executeDown = function() {
-            this.hero.jump();
-        }
-
-        this.keyboardProcessor.getButton("KeyA").executeDown = function() {
-            this.hero.startLeftMove();
-        }
-
-        this.keyboardProcessor.getButton("KeyA").executeUp = function() {
-            this.hero.stopLeftMove();
-        }
-
-        this.keyboardProcessor.getButton("KeyD").executeDown = function() {
-            this.hero.startRightMove();
-        }
-
-        this.keyboardProcessor.getButton("KeyD").executeUp = function() {
-            this.hero.stopRightMove();
-        }
+        this.setKeys();
     }
     
     update() {
@@ -107,4 +88,26 @@ export default class Level extends Container {
         )
     }
 
+    setKeys() {
+        this.keyboardProcessor = new KeyboardProcessor(this);
+        this.keyboardProcessor.getButton("Space").executeDown = function() {
+            this.hero.jump();
+        }
+
+        this.keyboardProcessor.getButton("KeyA").executeDown = function() {
+            this.hero.startLeftMove();
+        }
+
+        this.keyboardProcessor.getButton("KeyA").executeUp = function() {
+            this.hero.stopLeftMove();
+        }
+
+        this.keyboardProcessor.getButton("KeyD").executeDown = function() {
+            this.hero.startRightMove();
+        }
+
+        this.keyboardProcessor.getButton("KeyD").executeUp = function() {
+            this.hero.stopRightMove();
+        }
+    }
 }
