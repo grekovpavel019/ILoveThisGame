@@ -15,6 +15,7 @@ export default class Level1 extends Level {
         this.addChild(this.hero);
 
         this.addPlatform(PlatformFactory.createPlatform(50, 300));
+        this.addPlatform(PlatformFactory.createOneWayPlatform(100, 200))
         
         this.exitTrigger = new ExitTrigger();
         this.exitTrigger.x = 200;

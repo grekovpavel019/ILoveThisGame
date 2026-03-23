@@ -4,15 +4,15 @@ import { Container, Graphics } from "../../pixi/pixi.mjs";
 const States = {
     stay: "stay",
     jump: "jump",
-    doubleJump: "doubleJump",
-    fly: "fly"
+    flyDown: "flyDown",
+
 }
 
 export default class Hero extends Container {
 
     GRAVITY_FORCE = .1;
     SPEED = 2;
-    JUMP_FORCE = 4;
+    JUMP_FORCE = 6;
     velocityY = 0;
     velocityX = 0;
 
@@ -44,6 +44,10 @@ export default class Hero extends Container {
         this.velocityX = this.movement.x * this.SPEED;
         this.x += this.velocityX;
 
+        if (this.velocityY > 0 && this.isJumpState()) {
+            this.state = States.flyDown
+        }
+
         this.velocityY += this.GRAVITY_FORCE;
         this.y += this.velocityY;
     }
@@ -51,22 +55,19 @@ export default class Hero extends Container {
     stay() {
         this.state = States.stay;
         this.velocityY = 0;
-        // this.jumpCounts = 0;
     }
 
     jump() {
-
-        // if (this.jumpCounts >= this.#maxJumps) {
-        //     return;
-        // }
-
-        if (this.state === States.jump) {
+        if (this.state === States.jump || this.state === States.flyDown) {
             return;
         }
 
         this.velocityY = -this.JUMP_FORCE;
         this.state = States.jump;
-        // this.jumpCounts++;
+    }
+
+    isJumpState() {
+        return this.state === States.jump;
     }
 
     startLeftMove() {

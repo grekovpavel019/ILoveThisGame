@@ -44,7 +44,6 @@ export default class Level extends Container {
         character.y = prev.y;
 
         if (!this.isCheckAABB(character, platform)) {
-            character.stay();
             collisionResult.vertical = true;
             return collisionResult;
         }
@@ -64,12 +63,18 @@ export default class Level extends Container {
     
         this.hero.update();
         
-        for (let i of this.platforms) {
-            const collisionResult = this.getPlatformCollisionResult(this.hero, i, prev)
+        for (let platform of this.platforms) {
             
+            if (platform.oneWay) {
+                
+                if (this.hero.isJumpState()) {
+                        continue;
+                    }
+                }
+                
+            const collisionResult = this.getPlatformCollisionResult(this.hero, platform, prev)
             if (collisionResult.vertical) {
                 this.hero.stay();
-
             }
         }
     }
