@@ -41,6 +41,26 @@ export default class Level extends Container {
         }
 
         const currY = character.y;
+        const isMovingDown = character.y > prev.y;
+
+        if (platform.oneWay) {
+
+            if (!isMovingDown) {
+                return collisionResult;
+            }
+
+            character.y = prev.y;
+
+            if (!this.isCheckAABB(character, platform)) {
+                collisionResult.vertical = true;
+                return collisionResult;
+            }
+
+            character.y = currY;
+            return collisionResult;
+        };
+
+
         character.y = prev.y;
 
         if (!this.isCheckAABB(character, platform)) {
@@ -64,13 +84,6 @@ export default class Level extends Container {
         this.hero.update();
         
         for (let platform of this.platforms) {
-            
-            if (platform.oneWay) {
-                
-                if (this.hero.isJumpState()) {
-                        continue;
-                    }
-                }
                 
             const collisionResult = this.getPlatformCollisionResult(this.hero, platform, prev)
             if (collisionResult.vertical) {

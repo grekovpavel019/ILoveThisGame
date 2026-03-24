@@ -21,7 +21,6 @@ export default class Level1 extends Level {
         this.exitTrigger.x = 200;
         this.exitTrigger.y = 200;
         this.addChild(this.exitTrigger);
-
     }
 
 }

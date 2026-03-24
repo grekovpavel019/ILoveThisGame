@@ -12,7 +12,7 @@ export default class Hero extends Container {
 
     GRAVITY_FORCE = .1;
     SPEED = 2;
-    JUMP_FORCE = 6;
+    JUMP_FORCE = 4;
     velocityY = 0;
     velocityX = 0;
 
