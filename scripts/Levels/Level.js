@@ -30,46 +30,45 @@ export default class Level extends Container {
         }
     }
 
-    getPlatformCollisionResult(character, platform, prev) {
+    getPlatformCollisionResult(aaRect, bbRect, prevPoint) {
         const collisionResult = {
             horizontal: false,
             vertical: false
         }
 
-        if (!this.isCheckAABB(character, platform)) {
+        if (!this.isCheckAABB(aaRect, bbRect)) {
             return collisionResult;
         }
 
-        const currY = character.y;
-        const isMovingDown = character.y > prev.y;
-
-        if (platform.oneWay) {
-
+        const currY = aaRect.y;
+        
+        if (bbRect.oneWay) {
+            
+            const isMovingDown = aaRect.y > prevPoint.y;
             if (!isMovingDown) {
                 return collisionResult;
             }
 
-            character.y = prev.y;
+            aaRect.y = prevPoint.y;
 
-            if (!this.isCheckAABB(character, platform)) {
+            if (!this.isCheckAABB(aaRect, bbRect)) {
                 collisionResult.vertical = true;
                 return collisionResult;
             }
 
-            character.y = currY;
+            aaRect.y = currY;
             return collisionResult;
         };
 
+        aaRect.y = prevPoint.y;
 
-        character.y = prev.y;
-
-        if (!this.isCheckAABB(character, platform)) {
+        if (!this.isCheckAABB(aaRect, bbRect)) {
             collisionResult.vertical = true;
             return collisionResult;
         }
 
-        character.y = currY;
-        character.x = prev.x;
+        aaRect.y = currY;
+        aaRect.x = prevPoint.x;
 
         collisionResult.horizontal = true;
         return collisionResult;
@@ -83,12 +82,17 @@ export default class Level extends Container {
     
         this.hero.update();
         
+        let onGround = false;
         for (let platform of this.platforms) {
                 
             const collisionResult = this.getPlatformCollisionResult(this.hero, platform, prev)
             if (collisionResult.vertical) {
-                this.hero.stay();
+                onGround = true;
             }
+        }
+        
+        if (onGround) {
+            this.hero.stay();
         }
     }
 
