@@ -12,12 +12,14 @@ export default class Hero extends Container {
 
     GRAVITY_FORCE = .1;
     SPEED = 2;
-    JUMP_FORCE = 4;
+    JUMP_FORCE = 6;
     velocityY = 0;
     velocityX = 0;
 
     jumpCounts = 0;
     #maxJumps = 1;
+
+    ignoreOneWay = false;
     
     movement = {
         x: 0,
@@ -29,7 +31,6 @@ export default class Hero extends Container {
         right: 0
     }
     
-    state = States.state;
     
     constructor() {
         super();
@@ -68,6 +69,10 @@ export default class Hero extends Container {
 
     isJumpState() {
         return this.state === States.jump;
+    }
+
+    throwDown() {
+        this.state = States.jump;
     }
 
     startLeftMove() {

@@ -83,12 +83,20 @@ export default class Level extends Container {
         this.hero.update();
         
         let onGround = false;
+        
         for (let platform of this.platforms) {
-                
+            
+            if (platform.oneWay) {
+                if (this.hero.isJumpState()) {
+                    continue;
+                }
+            }
+
             const collisionResult = this.getPlatformCollisionResult(this.hero, platform, prev)
             if (collisionResult.vertical) {
                 onGround = true;
             }
+
         }
         
         if (onGround) {
@@ -130,6 +138,10 @@ export default class Level extends Container {
 
         this.keyboardProcessor.getButton("KeyD").executeUp = function() {
             this.hero.stopRightMove();
+        }
+
+        this.keyboardProcessor.getButton("KeyS").executeDown = function() {
+            this.hero.throwDown();
         }
     }
 }

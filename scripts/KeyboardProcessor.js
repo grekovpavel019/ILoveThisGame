@@ -11,6 +11,9 @@ export default class KeyboardProcessor {
         },
         Space: {
             isDown: false
+        },
+        KeyS: {
+            isDown: false
         }
 
     }
