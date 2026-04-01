@@ -33,7 +33,7 @@ export default class Level extends Container {
         return this.#passed;
     }
 
-    getPlatformCollisionResult(aaRect, bbRect, prevPoint) {
+    getDefaultPlatformCollisionResult(aaRect, bbRect, prevPoint) {
         const collisionResult = {
             horizontal: false,
             vertical: false
@@ -44,25 +44,6 @@ export default class Level extends Container {
         }
 
         const currY = aaRect.y;
-        
-        // if (bbRect.oneWay) {
-            
-        //     const isMovingDown = aaRect.y > prevPoint.y;
-        //     if (!isMovingDown) {
-        //         return collisionResult;
-        //     }
-
-        //     aaRect.y = prevPoint.y;
-
-        //     if (!this.isCheckAABB(aaRect, bbRect)) {
-        //         collisionResult.vertical = true;
-        //         return collisionResult;
-        //     }
-
-        //     aaRect.y = currY;
-        //     return collisionResult;
-        // };
-
         aaRect.y = prevPoint.y;
 
         if (!this.isCheckAABB(aaRect, bbRect)) {
@@ -77,8 +58,23 @@ export default class Level extends Container {
         return collisionResult;
     }
 
-    getOrientedCollision() {
+    getOneWayPlatformCollisionResult(aaRect, bbRect, prevPoint) {
+        if (bbRect.oneWay) {
+            if (aaRect.isJumpState()) {
+                return true;
+            }
 
+            if (prevPoint.y + aaRect.height > bbRect.y) {
+                return true;
+            }
+
+            if (aaRect.isThrowDown()) {
+                return true;
+            }
+
+        }
+
+        return false;
     }
 
     checkCollisionWithPlatforms() {
@@ -92,24 +88,12 @@ export default class Level extends Container {
         let onGround = false;
         for (let platform of this.platforms) {
             
-            // вынести в отдельный метод
-            if (platform.oneWay) {
-                if (this.hero.isJumpState()) {
-                    continue;
-                }
-
-                // if (prev.y + this.hero.height > platform.y) {
-                //     continue;
-                // }
-
-                // if (this.hero.isThrowDown()) {
-                //     continue;
-                // }
-
+            const oneWayCollisionResult = this.getOneWayPlatformCollisionResult(this.hero, platform, prev);
+            if (oneWayCollisionResult) {
+                continue;
             }
-            
-            const collisionResult = this.getPlatformCollisionResult(this.hero, platform, prev);
-            
+
+            const collisionResult = this.getDefaultPlatformCollisionResult(this.hero, platform, prev);
             if (collisionResult.vertical) {
                 onGround = true;
             }

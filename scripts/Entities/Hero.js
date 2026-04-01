@@ -4,6 +4,7 @@ import { Container, Graphics } from "../../pixi/pixi.mjs";
 const States = {
     stay: "stay",
     jump: "jump",
+    flyDown: "flyDown",
     throwDown: "throwDown",
 }
 
@@ -47,6 +48,11 @@ export default class Hero extends Container {
         this.velocityX = this.movement.x * this.SPEED;
         this.x += this.velocityX;
 
+        // прыгнул и начал падать, находиться в состоянии падения
+        if (this.velocityY > 0 && this.isJumpState()) {
+            this.state = States.flyDown;
+        }
+
         // тут же наоборот, velocityY должно накапливаться,
         // чтобы не было падения с одной скоростью
         this.velocityY += this.GRAVITY_FORCE;
@@ -59,7 +65,7 @@ export default class Hero extends Container {
     }
 
     jump() {
-        if (this.state === States.jump) {
+        if (this.state === States.jump || this.state === States.flyDown) {
             return;
         }
 
