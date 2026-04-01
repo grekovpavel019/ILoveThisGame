@@ -65,12 +65,16 @@ export default class Hero extends Container {
     }
 
     jump() {
-        if (this.state === States.jump || this.state === States.flyDown) {
+        if (this.state === States.jump || this.state === States.flyDown || this.flyDown()) {
             return;
         }
 
         this.velocityY = -this.JUMP_FORCE;
         this.state = States.jump;
+    }
+
+    flyDown() {
+        return this.velocityY > 0;
     }
 
     isJumpState() {
