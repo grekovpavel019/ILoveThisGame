@@ -13,7 +13,6 @@ export default class Level extends Container {
 
     constructor() {
         super();
-
         this.setKeys();
     }
     
@@ -42,23 +41,23 @@ export default class Level extends Container {
 
         const currY = aaRect.y;
         
-        if (bbRect.oneWay) {
+        // if (bbRect.oneWay) {
             
-            const isMovingDown = aaRect.y > prevPoint.y;
-            if (!isMovingDown) {
-                return collisionResult;
-            }
+        //     const isMovingDown = aaRect.y > prevPoint.y;
+        //     if (!isMovingDown) {
+        //         return collisionResult;
+        //     }
 
-            aaRect.y = prevPoint.y;
+        //     aaRect.y = prevPoint.y;
 
-            if (!this.isCheckAABB(aaRect, bbRect)) {
-                collisionResult.vertical = true;
-                return collisionResult;
-            }
+        //     if (!this.isCheckAABB(aaRect, bbRect)) {
+        //         collisionResult.vertical = true;
+        //         return collisionResult;
+        //     }
 
-            aaRect.y = currY;
-            return collisionResult;
-        };
+        //     aaRect.y = currY;
+        //     return collisionResult;
+        // };
 
         aaRect.y = prevPoint.y;
 
@@ -74,6 +73,10 @@ export default class Level extends Container {
         return collisionResult;
     }
 
+    getOrientedCollision() {
+
+    }
+
     checkCollisionWithPlatforms() {
         const prev = {
             x: this.hero.x,
@@ -83,16 +86,26 @@ export default class Level extends Container {
         this.hero.update();
         
         let onGround = false;
-        
         for (let platform of this.platforms) {
             
+            // вынести в отдельный метод
             if (platform.oneWay) {
                 if (this.hero.isJumpState()) {
                     continue;
                 }
-            }
 
-            const collisionResult = this.getPlatformCollisionResult(this.hero, platform, prev)
+                // if (prev.y + this.hero.height > platform.y) {
+                //     continue;
+                // }
+
+                // if (this.hero.isThrowDown()) {
+                //     continue;
+                // }
+
+            }
+            
+            const collisionResult = this.getPlatformCollisionResult(this.hero, platform, prev);
+            
             if (collisionResult.vertical) {
                 onGround = true;
             }
@@ -120,6 +133,9 @@ export default class Level extends Container {
 
     setKeys() {
         this.keyboardProcessor = new KeyboardProcessor(this);
+
+        // берем кнопку и навешиваем на нее поведение
+        // данные из кеймапы + поведение из level
         this.keyboardProcessor.getButton("Space").executeDown = function() {
             this.hero.jump();
         }

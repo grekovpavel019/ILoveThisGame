@@ -33,10 +33,14 @@ export default class Game {
         }
     }
 
+    // т. к. Game.js не обязан следить за конкретным назначением клавиш
+    // и их обработчиков, то мы передадим эту проблему на решение 
+    // keyboardProcessor конкретного уровня (дальше смотреть в keyboardProcessor)
     onKeyDown(event) {
         this.currentLevel.keyboardProcessor.onKeyDown(event);
     }
 
+    // аналогично с верхним
     onKeyUp(event) {
         this.currentLevel.keyboardProcessor.onKeyUp(event);
     }

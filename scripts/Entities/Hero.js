@@ -4,33 +4,33 @@ import { Container, Graphics } from "../../pixi/pixi.mjs";
 const States = {
     stay: "stay",
     jump: "jump",
-    flyDown: "flyDown",
-
+    throwDown: "throwDown",
 }
 
 export default class Hero extends Container {
 
+    // сила гравитации (скорость по Y)
     GRAVITY_FORCE = .1;
+
+    // скорость по X
     SPEED = 2;
+
+    // сила прыжка
     JUMP_FORCE = 6;
-    velocityY = 0;
-    velocityX = 0;
-
-    jumpCounts = 0;
-    #maxJumps = 1;
-
-    ignoreOneWay = false;
     
+    velocityY = 0; // 
+    velocityX = 0;
+    
+    // направление: если нажимали влево, то left -1, если вправо, то right 1
     movement = {
         x: 0,
     }
     
-    // контекст движение: если нажимали влево, то left -1, если вправо, то right 1
+    // состояние клавиш, используем ниже 
     directionContext = {
         left: 0,
         right: 0
     }
-    
     
     constructor() {
         super();
@@ -42,13 +42,13 @@ export default class Hero extends Container {
     }
 
     update() {
+        // с каждым апдейтом, velocityX будет сбрасываться, 
+        // чтобы не возникал эффект льда
         this.velocityX = this.movement.x * this.SPEED;
         this.x += this.velocityX;
 
-        if (this.velocityY > 0 && this.isJumpState()) {
-            this.state = States.flyDown
-        }
-
+        // тут же наоборот, velocityY должно накапливаться,
+        // чтобы не было падения с одной скоростью
         this.velocityY += this.GRAVITY_FORCE;
         this.y += this.velocityY;
     }
@@ -59,7 +59,7 @@ export default class Hero extends Container {
     }
 
     jump() {
-        if (this.state === States.jump || this.state === States.flyDown) {
+        if (this.state === States.jump) {
             return;
         }
 
@@ -72,12 +72,17 @@ export default class Hero extends Container {
     }
 
     throwDown() {
-        this.state = States.jump;
+        this.state = States.throwDown;
+    }
+
+    isThrowDown() {
+        return this.state === States.throwDown;
     }
 
     startLeftMove() {
         this.directionContext.left = -1;
 
+        // если мы в это время уже двигались вправо, то мы остановимся
         if (this.directionContext.right > 0) {
             this.movement.x = 0;
             return;
@@ -89,6 +94,7 @@ export default class Hero extends Container {
     startRightMove() {
         this.directionContext.right = 1;
 
+        // если мы в это время уже двигались влево, то мы остановимся
         if (this.directionContext.left < 0) {
             this.movement.x = 0;
             return;
