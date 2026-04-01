@@ -7,7 +7,7 @@ export default class Level extends Container {
     exitTrigger = null;
     platforms = [];
 
-    passed = false;
+    #passed = false;
 
     keyboardProcessor;
 
@@ -25,8 +25,12 @@ export default class Level extends Container {
         if (!this.exitTrigger) return;
 
         if(this.isCheckAABB(this.hero, this.exitTrigger)) {
-            this.passed = true;
+            this.#passed = true;
         }
+    }
+
+    isPassed() {
+        return this.#passed;
     }
 
     getPlatformCollisionResult(aaRect, bbRect, prevPoint) {

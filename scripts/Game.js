@@ -28,7 +28,7 @@ export default class Game {
     update() {
         this.currentLevel.update();
 
-        if (this.currentLevel.passed) {
+        if (this.currentLevel.isPassed()) {
             this.loadLevel(this.currentLevelIndex + 1);
         }
     }
