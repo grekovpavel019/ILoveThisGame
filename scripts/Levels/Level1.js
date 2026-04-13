@@ -11,7 +11,7 @@ export default class Level1 extends Level {
         
         this.hero = new Hero();
         this.hero.x = 100;
-        this.hero.y = 300;
+        this.hero.y = 400;
         this.addChild(this.hero);
 
         this.addPlatform(PlatformFactory.createPlatform(50, 300));
