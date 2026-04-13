@@ -10,7 +10,7 @@ export default class Level1 extends Level {
         super();
         
         this.hero = new Hero();
-        this.hero.x = 200;
+        this.hero.x = 100;
         this.hero.y = 300;
         this.addChild(this.hero);
 
