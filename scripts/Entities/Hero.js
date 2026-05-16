@@ -17,10 +17,10 @@ export default class Hero extends Container {
     SPEED = 2;
 
     // сила прыжка
-    JUMP_FORCE = 6;
+    JUMP_FORCE = 4.5;
     
-    velocityY = 0; // 
-    velocityX = 0;
+    velocityY = 0; // скорость по Y
+    velocityX = 0; // скорость по X
     
     // направление: если нажимали влево, то left -1, если вправо, то right 1
     movement = {
