@@ -1,6 +1,6 @@
 import { Container, Graphics } from "../../../pixi/pixi.mjs";
 
-export default class CommonTrampoline extends Container {
+export default class YellowPad extends Container {
     color;
 
     constructor(width, height) {
@@ -12,5 +12,13 @@ export default class CommonTrampoline extends Container {
         view.drawRect(0, 0, width, height);
 
         this.addChild(view);
+    }
+
+    activate(hero) {
+        if (hero.isThrowDown()) {
+            return;
+        }
+
+        hero.velocityY = -6.5;
     }
 }

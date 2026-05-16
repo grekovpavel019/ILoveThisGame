@@ -7,7 +7,7 @@ export default class Level extends Container {
     exitTrigger = null;
     platforms = [];
 
-    trampolines = [];
+    pads = [];
 
     #passed = false;
 
@@ -20,7 +20,7 @@ export default class Level extends Container {
     
     update() {
         this.checkCollisionWithPlatforms();
-        this.checkCollisionWithTrampolines();
+        this.checkCollisionWithPads();
         this.checkExit();
     }
     
@@ -80,11 +80,11 @@ export default class Level extends Container {
         return false;
     }
 
-    checkCollisionWithTrampolines() {
-        for (let tramp of this.trampolines) {
-            if (this.isCheckAABB(this.hero, tramp)) {
-                // this.hero.y -= 200;
-                this.hero.velocityY = -6.5;
+    checkCollisionWithPads() {
+        for (let pad of this.pads) {
+
+            if (this.isCheckAABB(this.hero, pad)) {
+                pad.activate(this.hero);
             }
         }
     }
@@ -122,9 +122,9 @@ export default class Level extends Container {
         this.addChild(platform);
     }
 
-    addTrampoline(trampoline) {
-        this.trampolines.push(trampoline);
-        this.addChild(trampoline);
+    addPad(pad) {
+        this.pads.push(pad);
+        this.addChild(pad);
     }
 
     isCheckAABB(area1, area2) {

@@ -10,6 +10,9 @@ const States = {
 
 export default class Hero extends Container {
 
+    // дирекция по Y
+    yDirection = 1;
+
     // сила гравитации (скорость по Y)
     GRAVITY_FORCE = .1;
 
@@ -55,7 +58,7 @@ export default class Hero extends Container {
 
         // тут же наоборот, velocityY должно накапливаться,
         // чтобы не было падения с одной скоростью
-        this.velocityY += this.GRAVITY_FORCE;
+        this.velocityY += (this.GRAVITY_FORCE);
         this.y += this.velocityY;
     }
 
@@ -99,6 +102,10 @@ export default class Hero extends Container {
         }
 
         this.movement.x = -1;
+    }
+
+    changeYDirection() {
+        this.yDirection *= -1;
     }
     
     startRightMove() {
