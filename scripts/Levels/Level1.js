@@ -25,7 +25,7 @@ export default class Level1 extends Level {
         
         this.addPlatform(PlatformFactory.createOneWayPlatform({
             x: 100,
-            y: 200,
+            y: 220,
             width: 400,
             height: 20
         }));
@@ -35,10 +35,10 @@ export default class Level1 extends Level {
         yellowPad.y = 290;
         this.addPad(yellowPad);
         
-        // this.exitTrigger = new ExitTrigger();
-        // this.exitTrigger.x = 200;
-        // this.exitTrigger.y = 200;
-        // this.addChild(this.exitTrigger);
+        this.exitTrigger = new ExitTrigger();
+        this.exitTrigger.x = 200;
+        this.exitTrigger.y = 200;
+        this.addChild(this.exitTrigger);
     }
 
 }

@@ -1,5 +1,6 @@
 import Level1 from "./Levels/Level1.js";
 import Level2 from "./Levels/Level2.js";
+import Retry from "./Retry.js";
 
 export default class Game {
 
@@ -11,6 +12,12 @@ export default class Game {
         this.#myApp = myApp;
         this.levels = [Level1, Level2];
 
+        this.retry = new Retry();
+        this.retry.onRestart = () => {
+            this.retry.hideRestartMenu();
+            this.loadLevel(this.currentLevelIndex);
+        };
+
         this.loadLevel(0);
     }
 
@@ -21,11 +28,19 @@ export default class Game {
         }
 
         this.currentLevelIndex = index;
-        this.currentLevel = new this.levels[index]();
+        this.currentLevel = new this.levels[index](this.retry);
+
+        this.currentLevel.onRestart = () => {
+            this.retry.showRestartMenu();
+        };
+
         this.#myApp.stage.addChild(this.currentLevel);
     }
 
     update() {
+        
+        // if (this.state !== "playing") return;       
+
         this.currentLevel.update();
 
         if (this.currentLevel.isPassed()) {

@@ -3,8 +3,10 @@ import Game from "./Game.js";
 
 const container = document.querySelector(".container");
 
+const restartButton = document.getElementById("restart__button");
+
 const app = new Application({
-    background: "#121212",
+    background: "#E8DCB8",
     resizeTo: container,
 });
 

@@ -11,11 +11,14 @@ export default class Level extends Container {
 
     #passed = false;
 
+    #onRestart = null;
+
     keyboardProcessor;
 
-    constructor() {
+    constructor(retry) {
         super();
         this.setKeys();
+        // this.retry = retry;
     }
     
     update() {
@@ -107,14 +110,11 @@ export default class Level extends Container {
 
             const collisionResult = this.getDefaultPlatformCollisionResult(this.hero, platform, prev);
             if (collisionResult.vertical) {
-                onGround = true;
+                this.hero.stay(platform.y);
             }
 
         }
         
-        if (onGround) {
-            this.hero.stay();
-        }
     }
 
     addPlatform(platform) {
@@ -162,7 +162,8 @@ export default class Level extends Container {
         }
 
         this.keyboardProcessor.getButton("KeyS").executeDown = function() {
-            this.hero.throwDown();
+            // this.hero.throwDown();
+            this.onRestart();
         }
     }
 }

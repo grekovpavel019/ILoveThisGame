@@ -62,9 +62,12 @@ export default class Hero extends Container {
         this.y += this.velocityY;
     }
 
-    stay() {
+    stay(platfromY) {
         this.state = States.stay;
         this.velocityY = 0;
+
+        // фиксируем значение после того, как упали, чтобы не дрыгался
+        this.y = platfromY - this.height;
     }
 
     jump() {
